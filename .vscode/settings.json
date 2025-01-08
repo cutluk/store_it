@@ -1,0 +1,9 @@
+// filepath: /Users/lukecutting/store_it/.vscode/settings.json
+{
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": "explicit"
+    },
+    "editor.formatOnSave": true,
+    "prettier.requireConfig": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+}
