@@ -3,7 +3,7 @@
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-
+import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import {
   Form,
@@ -14,19 +14,31 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import Image from 'next/image';
 import Link from 'next/link';
 
 type FormType = 'sign-in' | 'sign-up';
 
-const formSchema = z.object({
-  username: z.string().min(2).max(50),
-});
+const authFormSchema = (formType: FormType) => {
+  return z.object({
+    email: z.string().email(),
+    fullName:
+      formType === 'sign-up'
+        ? z.string().min(2).max(50)
+        : z.string().optional(),
+  });
+};
 
 const AuthForm = ({ type }: { type: FormType }) => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const formSchema = authFormSchema(type);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      username: '',
+      email: '',
+      fullName: '',
     },
   });
 
@@ -44,7 +56,7 @@ const AuthForm = ({ type }: { type: FormType }) => {
           {type === 'sign-up' && (
             <FormField
               control={form.control}
-              name="username"
+              name="fullName"
               render={({ field }) => (
                 <FormItem>
                   <div className="shad-form-item">
@@ -67,7 +79,7 @@ const AuthForm = ({ type }: { type: FormType }) => {
 
           <FormField
             control={form.control}
-            name="username"
+            name="email"
             render={({ field }) => (
               <FormItem>
                 <div className="shad-form-item">
@@ -90,11 +102,11 @@ const AuthForm = ({ type }: { type: FormType }) => {
           <Button
             type="submit"
             className="form-submit-button"
-            // disabled={isLoading}
+            disabled={isLoading}
           >
             {type === 'sign-in' ? 'Sign In' : 'Sign Up'}
 
-            {/* {isLoading && (
+            {isLoading && (
               <Image
                 src="/assets/icons/loader.svg"
                 alt="loader"
@@ -102,10 +114,10 @@ const AuthForm = ({ type }: { type: FormType }) => {
                 height={24}
                 className="ml-2 animate-spin"
               />
-            )} */}
+            )}
           </Button>
 
-          {/* {errorMessage && <p className="error-message">*{errorMessage}</p>} */}
+          {errorMessage && <p className="error-message">*{errorMessage}</p>}
 
           <div className="body-2 flex justify-center">
             <p className="text-light-100">
