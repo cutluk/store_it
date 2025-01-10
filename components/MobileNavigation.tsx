@@ -24,13 +24,7 @@ interface Props {
   email: string;
 }
 
-const MobileNavigation = ({
-  ownerId,
-  accountId,
-  fullName,
-  avatar,
-  email,
-}: Props) => {
+const MobileNavigation = ({ fullName, avatar, email }: Props) => {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
   return (
