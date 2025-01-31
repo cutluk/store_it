@@ -1,10 +1,10 @@
 'use server';
 
-import { UploadFileProps } from 'types';
+import { UploadFileProps } from '@/types';
 import { createAdminClient } from 'lib/appwrite';
 import { appwriteConfig } from '@/lib/appwrite/config';
 import { InputFile } from 'node-appwrite/file';
-import { ID, Models, Query } from 'node-appwrite';
+import { ID } from 'node-appwrite';
 import { revalidatePath } from 'next/cache';
 import { constructFileUrl, getFileType, parseStringify } from '@/lib/utils';
 
